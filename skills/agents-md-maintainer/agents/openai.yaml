@@ -1,0 +1,4 @@
+interface:
+  display_name: "AGENTS.md Maintainer"
+  short_description: "Keep Codex AGENTS.md context concise, current, and actionable."
+  default_prompt: "Review and improve this repository AGENTS.md context file."

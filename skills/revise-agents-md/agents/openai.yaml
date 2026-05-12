@@ -1,0 +1,4 @@
+interface:
+  display_name: "Revise AGENTS.md"
+  short_description: "Capture current-session learnings into AGENTS.md."
+  default_prompt: "Revise AGENTS.md with useful learnings from this session."
