@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GitHub Monetization Cartography</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #172026;
+      --muted: #5f6b73;
+      --line: #d9e0e5;
+      --soft: #f5f7f8;
+      --accent: #1f7a6d;
+      --warn: #9a5b00;
+      --risk: #a23b3b;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: #ffffff;
+      font: 14px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    header {
+      border-bottom: 1px solid var(--line);
+      background: var(--soft);
+      padding: 28px clamp(20px, 5vw, 64px);
+    }
+    main {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 28px clamp(20px, 4vw, 48px) 48px;
+    }
+    h1, h2, h3, h4, p { margin-top: 0; }
+    h1 { font-size: 28px; margin-bottom: 6px; }
+    h2 { font-size: 18px; margin-bottom: 12px; }
+    h3 { font-size: 15px; margin-bottom: 0; }
+    h4 { font-size: 12px; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+    code {
+      background: #eef2f4;
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      padding: 1px 4px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 12px;
+    }
+    .summary {
+      display: grid;
+      grid-template-columns: minmax(180px, 240px) 1fr;
+      gap: 18px;
+      margin-bottom: 26px;
+    }
+    .score {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 18px;
+      background: #fff;
+    }
+    .score strong {
+      display: block;
+      font-size: 44px;
+      line-height: 1;
+      color: var(--accent);
+    }
+    .meta {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 18px;
+      background: #fff;
+    }
+    .meta dl {
+      display: grid;
+      grid-template-columns: 140px 1fr;
+      gap: 8px 14px;
+      margin: 0;
+    }
+    .meta dt { color: var(--muted); }
+    .meta dd { margin: 0; word-break: break-word; }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+      margin-bottom: 26px;
+    }
+    .panel, .category {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 18px;
+      background: #fff;
+    }
+    .category { margin-bottom: 14px; }
+    .category-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+    .track {
+      height: 9px;
+      background: #edf1f3;
+      border-radius: 999px;
+      overflow: hidden;
+      margin-bottom: 10px;
+    }
+    .track span {
+      display: block;
+      height: 100%;
+      background: var(--accent);
+    }
+    .cols {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 12px;
+    }
+    ul { margin: 0; padding-left: 18px; }
+    li + li { margin-top: 7px; }
+    .facts {
+      list-style: none;
+      padding: 0;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+    }
+    .facts li {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 6px;
+    }
+    .facts span { color: var(--muted); }
+    .risks strong { color: var(--risk); text-transform: uppercase; font-size: 12px; }
+    .actions strong { color: var(--accent); }
+    .actions span { color: var(--muted); }
+    @media (max-width: 760px) {
+      .summary, .grid, .cols { grid-template-columns: 1fr; }
+      .meta dl { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>GitHub Monetization Cartography</h1>
+    <p>Repository evidence baseline for monetization experiment readiness.</p>
+  </header>
+  <main>
+    <section class="summary">
+      <div class="score">
+        <strong>{{SCORE}}</strong>
+        <span>{{GRADE}}</span>
+      </div>
+      <div class="meta">
+        <dl>
+          <dt>Target</dt><dd>{{TARGET}}</dd>
+          <dt>Mode</dt><dd>{{MODE}}</dd>
+          <dt>Manual Review</dt><dd>{{MANUAL_REVIEW}}</dd>
+          <dt>Generated</dt><dd>{{GENERATED_AT}}</dd>
+        </dl>
+      </div>
+    </section>
+
+    <section class="grid">
+      <div class="panel">
+        <h2>Signals</h2>
+        <ul class="facts">{{SIGNALS}}</ul>
+      </div>
+      <div class="panel">
+        <h2>Repo Inventory</h2>
+        <ul class="facts">{{INVENTORY}}</ul>
+      </div>
+    </section>
+
+    <section>
+      <h2>Categories</h2>
+      {{CATEGORIES}}
+    </section>
+
+    <section class="grid">
+      <div class="panel risks">
+        <h2>Risks</h2>
+        <ul>{{RISKS}}</ul>
+      </div>
+      <div class="panel actions">
+        <h2>Revenue Actions</h2>
+        <ul>{{ACTIONS}}</ul>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>Extraction Gaps</h2>
+      <ul>{{EXTRACTION_GAPS}}</ul>
+    </section>
+  </main>
+</body>
+</html>

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Improve Cartography Skill"
+  short_description: "Improve cartography skills from evaluator findings"
+  default_prompt: "Use $improve-cartography-skill to evaluate this cartography skill, patch the highest-ROI issues, and rerun the evaluator."

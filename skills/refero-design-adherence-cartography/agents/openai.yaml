@@ -1,0 +1,3 @@
+display_name: Refero Design Adherence Cartography
+short_description: Score a frontend against a supplied Refero style reference.
+default_prompt: Score this project against the supplied Refero design.md reference and produce JSON plus an HTML dashboard.

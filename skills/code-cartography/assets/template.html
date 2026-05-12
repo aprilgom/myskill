@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Code Cartography</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #172033;
+      --muted: #667085;
+      --line: #d9e0ea;
+      --surface: #f7f9fc;
+      --panel: #ffffff;
+      --accent: #2563eb;
+      --risk: #b42318;
+      --warn: #b54708;
+      --ok: #067647;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--surface);
+      color: var(--ink);
+      font: 14px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    header {
+      border-bottom: 1px solid var(--line);
+      background: var(--panel);
+      padding: 28px 32px 22px;
+    }
+    main { padding: 24px 32px 40px; }
+    h1, h2 { margin: 0; letter-spacing: 0; }
+    h1 { font-size: 28px; }
+    h2 { font-size: 18px; margin: 28px 0 12px; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 12px; }
+    .meta { margin-top: 8px; color: var(--muted); }
+    .scoreline {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: baseline;
+      margin-top: 20px;
+    }
+    .score {
+      font-size: 42px;
+      font-weight: 750;
+    }
+    .grade {
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 5px 10px;
+      background: #eef4ff;
+      color: #1849a9;
+      font-weight: 650;
+    }
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 10px;
+      margin-top: 18px;
+    }
+    .metric {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+      padding: 12px;
+    }
+    .metric span {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+    }
+    .metric strong {
+      display: block;
+      margin-top: 4px;
+      font-size: 20px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    th, td {
+      border-bottom: 1px solid var(--line);
+      padding: 10px 12px;
+      text-align: left;
+      vertical-align: top;
+    }
+    th {
+      background: #edf2f7;
+      font-size: 12px;
+      color: #344054;
+    }
+    tr:last-child td { border-bottom: 0; }
+    .num { text-align: right; white-space: nowrap; }
+    .muted {
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: 3px;
+    }
+    .bar {
+      width: 120px;
+      height: 8px;
+      border-radius: 999px;
+      background: #e4e7ec;
+      overflow: hidden;
+      margin-top: 5px;
+    }
+    .bar span {
+      display: block;
+      height: 100%;
+      background: var(--accent);
+    }
+    .pill {
+      display: inline-block;
+      min-width: 52px;
+      border-radius: 999px;
+      padding: 3px 8px;
+      text-align: center;
+      font-size: 12px;
+      font-weight: 650;
+      background: #f2f4f7;
+    }
+    .pill.high { color: var(--risk); background: #fef3f2; }
+    .pill.medium { color: var(--warn); background: #fffaeb; }
+    .pill.low { color: var(--ok); background: #ecfdf3; }
+    @media (max-width: 720px) {
+      header, main { padding-left: 16px; padding-right: 16px; }
+      table { display: block; overflow-x: auto; }
+      .score { font-size: 34px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Code Cartography</h1>
+    <div class="meta">Target: <code>{{TARGET}}</code></div>
+    <div class="meta">Generated: {{GENERATED_AT}} | Mode: {{MODE}}</div>
+    <div class="scoreline">
+      <div class="score">{{SCORE}}/100</div>
+      <div class="grade">{{GRADE}}</div>
+    </div>
+    <div class="metrics">
+      {{METRICS_CARDS}}
+    </div>
+  </header>
+  <main>
+    <h2>Category Scores</h2>
+    <table>
+      <thead>
+        <tr><th>Cat</th><th>Category</th><th>Score</th><th>Bar</th><th>Evidence / Gaps</th></tr>
+      </thead>
+      <tbody>
+        {{CATEGORY_ROWS}}
+      </tbody>
+    </table>
+
+    <h2>Risk Hotspots</h2>
+    <table>
+      <thead>
+        <tr><th>Risk</th><th>Path</th><th>Reasons</th><th>Metrics</th></tr>
+      </thead>
+      <tbody>
+        {{HOTSPOT_ROWS}}
+      </tbody>
+    </table>
+
+    <h2>Risk Findings</h2>
+    <table>
+      <thead>
+        <tr><th>Severity</th><th>Finding</th><th>Evidence</th></tr>
+      </thead>
+      <tbody>
+        {{RISK_ROWS}}
+      </tbody>
+    </table>
+
+    <h2>ROI Actions</h2>
+    <table>
+      <thead>
+        <tr><th>Priority</th><th>Effort</th><th>Impact</th><th>Action</th><th>Evidence</th></tr>
+      </thead>
+      <tbody>
+        {{ACTION_ROWS}}
+      </tbody>
+    </table>
+
+    <h2>Extraction Gaps</h2>
+    <table>
+      <thead>
+        <tr><th>Path</th><th>Reason</th></tr>
+      </thead>
+      <tbody>
+        {{GAP_ROWS}}
+      </tbody>
+    </table>
+  </main>
+</body>
+</html>

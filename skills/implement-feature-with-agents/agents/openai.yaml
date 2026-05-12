@@ -1,0 +1,4 @@
+interface:
+  display_name: "Implement Feature With Agents"
+  short_description: "TDD feature work with agents and PRs"
+  default_prompt: "Use $implement-feature-with-agents to implement this feature with branch isolation, TDD, review gates, coherent commits, and a draft PR."

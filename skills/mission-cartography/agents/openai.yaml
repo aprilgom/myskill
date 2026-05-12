@@ -1,0 +1,4 @@
+name: mission-cartography
+description: Evaluate mission clarity, evidence, alignment, and strategic usefulness for projects and product artifacts.
+model: gpt-5.2
+reasoning_effort: medium

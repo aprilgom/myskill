@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Frontend Design Cartography</title>
+  <style>
+    :root {
+      --bg: #f6f2ea;
+      --ink: #1d1c18;
+      --muted: #686256;
+      --line: #d9d0c1;
+      --panel: #fffaf1;
+      --accent: #0d6b68;
+      --risk: #b6422d;
+      --good: #207044;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background:
+        radial-gradient(circle at 15% 0%, rgba(13, 107, 104, .14), transparent 32rem),
+        linear-gradient(135deg, #f8f1e7, #eef3ec 58%, #f6f2ea);
+      color: var(--ink);
+      font-family: ui-serif, Georgia, Cambria, "Times New Roman", serif;
+      line-height: 1.45;
+    }
+    main { max-width: 1120px; margin: 0 auto; padding: 48px 24px; }
+    header { display: grid; gap: 18px; border-bottom: 1px solid var(--line); padding-bottom: 28px; }
+    h1 { margin: 0; font-size: 44px; line-height: 1.05; letter-spacing: 0; }
+    h2 { margin: 0 0 14px; font-size: 20px; }
+    p { margin: 0; color: var(--muted); }
+    .meta { display: flex; flex-wrap: wrap; gap: 10px; color: var(--muted); font-size: 14px; }
+    .score-row { display: grid; grid-template-columns: 180px 1fr; gap: 28px; align-items: end; }
+    .score { font-size: 76px; font-weight: 700; line-height: .9; }
+    .grade { font-size: 24px; color: var(--accent); }
+    section { padding: 28px 0; border-bottom: 1px solid var(--line); }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+    .panel { background: rgba(255,250,241,.7); border: 1px solid var(--line); padding: 18px; }
+    .bar { height: 10px; background: #e6ddce; margin: 10px 0 8px; overflow: hidden; }
+    .fill { height: 100%; background: var(--accent); width: var(--w); }
+    .category-title { display: flex; justify-content: space-between; gap: 12px; font-weight: 700; }
+    ul { margin: 10px 0 0; padding-left: 20px; color: var(--muted); }
+    li + li { margin-top: 6px; }
+    table { width: 100%; border-collapse: collapse; font-size: 14px; }
+    th, td { text-align: left; border-bottom: 1px solid var(--line); padding: 10px 8px; vertical-align: top; }
+    th { color: var(--muted); font-weight: 700; }
+    .risk { color: var(--risk); }
+    .good { color: var(--good); }
+    @media (max-width: 680px) {
+      main { padding: 32px 16px; }
+      h1 { font-size: 34px; }
+      .score-row { grid-template-columns: 1fr; gap: 12px; }
+      .score { font-size: 64px; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <div class="meta">
+        <span>Target: {{TARGET}}</span>
+        <span>Generated: {{GENERATED_AT}}</span>
+        <span>Mode: {{MODE}}</span>
+      </div>
+      <div class="score-row">
+        <div class="score">{{SCORE}}</div>
+        <div>
+          <h1>Frontend Design Cartography</h1>
+          <p class="grade">{{GRADE}}</p>
+        </div>
+      </div>
+    </header>
+
+    <section>
+      <h2>Category Map</h2>
+      <div class="grid">
+        {{CATEGORY_CARDS}}
+      </div>
+    </section>
+
+    <section>
+      <h2>Risks</h2>
+      {{RISKS_TABLE}}
+    </section>
+
+    <section>
+      <h2>ROI Actions</h2>
+      {{ACTIONS_TABLE}}
+    </section>
+
+    <section>
+      <h2>Extraction Gaps</h2>
+      {{GAPS_LIST}}
+    </section>
+  </main>
+</body>
+</html>

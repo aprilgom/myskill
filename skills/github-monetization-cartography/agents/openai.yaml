@@ -1,0 +1,3 @@
+display_name: GitHub Monetization Cartography
+short_description: Score a GitHub repo's evidence for monetization experiments.
+default_prompt: Evaluate this GitHub repository for monetization readiness using repo evidence only. Produce a score, key findings, and top revenue actions.

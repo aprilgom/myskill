@@ -1,0 +1,4 @@
+interface:
+  display_name: "Architecture Cartography"
+  short_description: "Map and score repository architecture"
+  default_prompt: "Use $architecture-cartography to audit this repository's architecture, generate a score report, and identify high-ROI architecture improvements."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Improve Monetization"
+  short_description: "Improve revenue readiness from a monetization score"
+  default_prompt: "Use $improve-monetization to evaluate this project with $monetization-cartography, then have a separate improvement agent apply the highest-ROI monetization fixes."

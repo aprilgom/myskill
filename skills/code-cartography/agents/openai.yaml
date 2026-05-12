@@ -1,0 +1,7 @@
+interface:
+  display_name: "Code Cartography"
+  short_description: "Map code maintainability risk hotspots"
+  brand_color: "#2563EB"
+  default_prompt: "Use $code-cartography to evaluate this repository's code maintainability risks and ROI refactoring actions."
+policy:
+  allow_implicit_invocation: true

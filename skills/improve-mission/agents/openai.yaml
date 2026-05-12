@@ -1,0 +1,4 @@
+name: improve-mission
+description: Improve mission clarity and alignment using mission-cartography as the baseline and build-mission patterns for rewrites.
+model: gpt-5.2
+reasoning_effort: medium

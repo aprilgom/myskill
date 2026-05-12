@@ -1,0 +1,4 @@
+interface:
+  display_name: "Cartography Skill Evaluator"
+  short_description: "Evaluate cartography-style skills"
+  default_prompt: "Use $cartography-skill-evaluator to evaluate this cartography skill and recommend the highest ROI fixes."

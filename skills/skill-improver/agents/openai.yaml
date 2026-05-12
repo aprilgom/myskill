@@ -1,0 +1,4 @@
+interface:
+  display_name: "Skill Improver"
+  short_description: "Improve agent-facing skills with before/after evaluation"
+  default_prompt: "Use $skill-improver to evaluate this skill, patch the highest-ROI gaps, verify the result, and report before/after evidence."

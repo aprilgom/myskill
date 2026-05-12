@@ -1,0 +1,4 @@
+interface:
+  display_name: "Monetization Cartography"
+  short_description: "Score project monetization readiness"
+  default_prompt: "Use $monetization-cartography to assess whether this project can be monetized and identify the highest-ROI revenue experiments."

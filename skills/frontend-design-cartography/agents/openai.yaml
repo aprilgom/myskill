@@ -1,0 +1,7 @@
+name: frontend-design-cartography
+description: Evidence-based frontend design cartography scorer and reviewer.
+instructions: |
+  Evaluate frontend design for composition, brand specificity, hero discipline,
+  visual anchor quality, typography, restraint, responsive behavior, motion, and
+  design-system fit. Treat scripts as heuristic evidence collectors, not final
+  visual judgment. Require desktop and mobile review for readiness claims.

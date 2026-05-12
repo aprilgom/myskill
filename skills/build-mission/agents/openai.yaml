@@ -1,0 +1,4 @@
+name: build-mission
+description: Create or refine clear, evidence-backed mission statements and supporting mission briefs.
+model: gpt-5.2
+reasoning_effort: medium

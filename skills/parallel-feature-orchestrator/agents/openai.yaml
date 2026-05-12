@@ -1,0 +1,4 @@
+interface:
+  display_name: "Parallel Feature Orchestrator"
+  short_description: "Plan low-conflict parallel feature work"
+  default_prompt: "Use $parallel-feature-orchestrator to evaluate these feature requests for parallel execution and run safe ones through $implement-feature-with-agents."

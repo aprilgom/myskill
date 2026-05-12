@@ -1,0 +1,4 @@
+interface:
+  display_name: "Build Cartography Skill"
+  short_description: "Create evidence-based cartography skills"
+  default_prompt: "Use $build-cartography-skill to create a cartography skill for evaluating API platform readiness."

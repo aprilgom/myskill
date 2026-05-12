@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Skill Improvement Cartography</title>
+  <style>
+    body { margin: 0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, sans-serif; color: #202124; background: #f7f5f0; }
+    main { max-width: 1100px; margin: 0 auto; padding: 32px 20px 48px; }
+    header { border-bottom: 2px solid #202124; padding-bottom: 18px; margin-bottom: 24px; }
+    h1 { margin: 0 0 8px; font-size: 28px; }
+    h2 { margin: 0 0 6px; font-size: 17px; }
+    p { margin: 4px 0; line-height: 1.45; }
+    .score { display: flex; gap: 16px; align-items: baseline; margin-top: 14px; }
+    .score strong { font-size: 44px; }
+    .grid { display: grid; grid-template-columns: minmax(0, 2fr) minmax(280px, 1fr); gap: 18px; }
+    .panel, .category { background: #fff; border: 1px solid #d7d2c7; border-radius: 8px; padding: 16px; }
+    .category { margin-bottom: 12px; }
+    .category strong { display: block; margin: 8px 0; }
+    .bar { height: 8px; background: #e5e0d6; border-radius: 999px; overflow: hidden; margin-bottom: 10px; }
+    .bar span { display: block; height: 100%; background: #2f6f73; }
+    ul { margin: 8px 0 0; padding-left: 20px; }
+    li { margin: 8px 0; }
+    li span { color: #5d4037; font-size: 12px; margin-left: 6px; }
+    @media (max-width: 760px) { .grid { grid-template-columns: 1fr; } .score strong { font-size: 36px; } }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <h1>Skill Improvement Cartography</h1>
+      <p>{{TARGET}}</p>
+      <div class="score"><strong>{{SCORE}}/100</strong><span>{{GRADE}}</span></div>
+      <p>{{MODE}}</p>
+    </header>
+    <div class="grid">
+      <section>
+        {{CATEGORY_ROWS}}
+      </section>
+      <aside>
+        <div class="panel">
+          <h2>ROI Actions</h2>
+          <ul>{{ACTION_ROWS}}</ul>
+        </div>
+        <div class="panel">
+          <h2>Risks</h2>
+          <ul>{{RISK_ROWS}}</ul>
+        </div>
+        <div class="panel">
+          <h2>Extraction Gaps</h2>
+          <ul>{{GAP_ROWS}}</ul>
+        </div>
+      </aside>
+    </div>
+  </main>
+</body>
+</html>
+
