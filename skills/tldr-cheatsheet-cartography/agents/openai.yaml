@@ -1,0 +1,7 @@
+interface:
+  display_name: "TLDR Cheatsheet Cartography"
+  short_description: "Audit TLDR cheat sheet quality"
+  default_prompt: "Use $tldr-cheatsheet-cartography to audit this `.tldr.md` cheat sheet and suggest the highest-ROI edits."
+
+policy:
+  allow_implicit_invocation: true

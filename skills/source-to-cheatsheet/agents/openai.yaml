@@ -1,0 +1,7 @@
+interface:
+  display_name: "Source to Cheatsheet"
+  short_description: "원문 기반 실전 치트시트 생성"
+  default_prompt: "Use $source-to-cheatsheet to turn the attached source document into a concise, task-focused cheatsheet."
+
+policy:
+  allow_implicit_invocation: true

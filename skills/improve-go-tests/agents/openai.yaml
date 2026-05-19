@@ -1,0 +1,7 @@
+interface:
+  display_name: "Improve Go Tests"
+  short_description: "Make Go tests clearer and diagnostic."
+  default_prompt: "Use $improve-go-tests to improve Go tests with idiomatic structure, useful failure messages, table tests, cmp diffs, and minimal helpers."
+
+policy:
+  allow_implicit_invocation: true
