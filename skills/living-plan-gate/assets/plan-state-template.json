@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "scope": "",
+  "plan_kind": "",
+  "plan_path": "",
+  "sensitive_path": "",
+  "plan_updated_at": "",
+  "plan_branch": "",
+  "plan_base_ref": "",
+  "tracked_tree_hash": "",
+  "dirty_status_hash": "",
+  "plan_hash": ""
+}

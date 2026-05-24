@@ -1,0 +1,4 @@
+interface:
+  display_name: "Living Plan Gate"
+  short_description: "Keep action plans synchronized with repository changes."
+  default_prompt: "Use $living-plan-gate to set up a deterministic living plan gate for this project."
