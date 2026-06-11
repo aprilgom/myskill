@@ -1,0 +1,4 @@
+interface:
+  display_name: "Revise Sessions"
+  short_description: "Find repeated Codex workflows worth automating"
+  default_prompt: "Use $revise-sessions to review my recent Codex sessions and create only useful reusable skills or subagents."

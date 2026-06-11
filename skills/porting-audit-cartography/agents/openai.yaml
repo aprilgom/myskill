@@ -1,0 +1,4 @@
+interface:
+  display_name: "Porting Audit Cartography"
+  short_description: "Audit port completeness and boundaries"
+  default_prompt: "Use $porting-audit-cartography to audit how completely this package was ported and whether dependencies and responsibilities stayed in the right packages."

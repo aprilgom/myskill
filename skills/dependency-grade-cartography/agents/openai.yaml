@@ -1,0 +1,4 @@
+interface:
+  display_name: "Dependency Grade Cartography"
+  short_description: "Map dependency graphs into porting stages"
+  default_prompt: "Use $dependency-grade-cartography to generate a dependency grade map for this package or workspace."

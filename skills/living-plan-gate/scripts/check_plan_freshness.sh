@@ -12,6 +12,14 @@ fi
 # shellcheck disable=SC1090
 source "$config_path"
 
+strip_cr() {
+	printf '%s' "${1%$'\r'}"
+}
+
+PLAN_PATH="$(strip_cr "$PLAN_PATH")"
+STATE_PATH="$(strip_cr "$STATE_PATH")"
+SENSITIVE_PATH="$(strip_cr "$SENSITIVE_PATH")"
+
 : "${PLAN_PATH:?PLAN_PATH is required}"
 : "${STATE_PATH:?STATE_PATH is required}"
 : "${SENSITIVE_PATH:?SENSITIVE_PATH is required}"
@@ -62,7 +70,7 @@ tracked_hash = sha(tracked)
 status = run(["git", "status", "--porcelain", "--", sensitive_path, plan_path, state_path])
 status = "\n".join(
     line for line in status.splitlines()
-    if not line[3:] in {state_path}
+    if not line[3:] in {state_path, plan_path}
 ) + "\n"
 dirty_hash = sha(status)
 
@@ -73,7 +81,13 @@ failures = []
 if state_get(state, "plan_branch") != branch:
     failures.append(f"STALE_BRANCH: state={state_get(state, 'plan_branch')} current={branch}")
 if state_get(state, "plan_base_ref") != head:
-    failures.append(f"STALE_HEAD: state={state_get(state, 'plan_base_ref')} current={head}")
+    parent = ""
+    try:
+        parent = run(["git", "rev-parse", "HEAD^"]).strip()
+    except subprocess.CalledProcessError:
+        parent = ""
+    if state_get(state, "plan_base_ref") != parent:
+        failures.append(f"STALE_HEAD: state={state_get(state, 'plan_base_ref')} current={head}")
 if state_get(state, "tracked_tree_hash") != tracked_hash:
     failures.append("STALE_TRACKED_TREE")
 if state_get(state, "dirty_status_hash") != dirty_hash:

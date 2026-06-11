@@ -1,0 +1,4 @@
+interface:
+  display_name: "Codex Current Session Token Efficiency"
+  short_description: "Analyze current-session Codex token usage"
+  default_prompt: "Use $codex-current-session-token-efficiency to show where tokens were spent in this current session."

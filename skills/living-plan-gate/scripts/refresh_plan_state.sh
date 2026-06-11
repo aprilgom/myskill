@@ -12,6 +12,16 @@ fi
 # shellcheck disable=SC1090
 source "$config_path"
 
+strip_cr() {
+	printf '%s' "${1%$'\r'}"
+}
+
+PLAN_SCOPE="$(strip_cr "$PLAN_SCOPE")"
+PLAN_KIND="$(strip_cr "$PLAN_KIND")"
+PLAN_PATH="$(strip_cr "$PLAN_PATH")"
+STATE_PATH="$(strip_cr "$STATE_PATH")"
+SENSITIVE_PATH="$(strip_cr "$SENSITIVE_PATH")"
+
 : "${PLAN_PATH:?PLAN_PATH is required}"
 : "${STATE_PATH:?STATE_PATH is required}"
 : "${SENSITIVE_PATH:?SENSITIVE_PATH is required}"
@@ -49,7 +59,7 @@ tracked = "\n".join(
 status = run(["git", "status", "--porcelain", "--", sensitive_path, plan_path, state_path])
 status = "\n".join(
     line for line in status.splitlines()
-    if not line[3:] in {state_path}
+    if not line[3:] in {state_path, plan_path}
 ) + "\n"
 
 with open(plan_path, "rb") as f:

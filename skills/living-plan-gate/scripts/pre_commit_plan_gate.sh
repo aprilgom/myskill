@@ -12,6 +12,14 @@ fi
 # shellcheck disable=SC1090
 source "$config_path"
 
+strip_cr() {
+	printf '%s' "${1%$'\r'}"
+}
+
+PLAN_PATH="$(strip_cr "$PLAN_PATH")"
+STATE_PATH="$(strip_cr "$STATE_PATH")"
+SENSITIVE_PATH="$(strip_cr "$SENSITIVE_PATH")"
+
 : "${PLAN_PATH:?PLAN_PATH is required}"
 : "${STATE_PATH:?STATE_PATH is required}"
 : "${SENSITIVE_PATH:?SENSITIVE_PATH is required}"
@@ -20,6 +28,11 @@ cd "$repo_root"
 
 staged="$(git diff --cached --name-only -- "$SENSITIVE_PATH" "$PLAN_PATH" "$STATE_PATH")"
 if [[ -z "$staged" ]]; then
+	exit 0
+fi
+
+staged_sensitive="$(git diff --cached --name-only -- "$SENSITIVE_PATH")"
+if [[ -z "$staged_sensitive" ]]; then
 	exit 0
 fi
 

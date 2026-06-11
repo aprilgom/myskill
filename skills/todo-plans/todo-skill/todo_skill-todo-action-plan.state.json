@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "scope": "todo_skill",
+  "plan_kind": "todo-action-plan",
+  "plan_path": "/Users/aprilgom/.codex/skills/todo-plans/todo-skill/action-plan.md",
+  "sensitive_path": ".",
+  "plan_updated_at": "2026-05-31T04:13:18.666467Z",
+  "plan_branch": "master",
+  "plan_base_ref": "fd7620e8a15492fdb47fe713f87c3538edcd01c9",
+  "tracked_tree_hash": "c2c9d924298b145303e038475f6978d6bac86990f1a6954cb6544113325e27a5",
+  "dirty_status_hash": "ccf26940585ca53ba4c2e15d470fd0dda6b5807b7de25662c208934540e58362",
+  "plan_hash": "88420fba79169201c631698dce4ede772a0a001f8ccfaf387794cbe8fc7b4097"
+}

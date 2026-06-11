@@ -1,0 +1,4 @@
+interface:
+  display_name: "ROI Subagent Loop"
+  short_description: "Run small ROI actions through bounded agents"
+  default_prompt: "Use $roi-subagent-loop to turn the next ROI action into a safe bounded subagent task."

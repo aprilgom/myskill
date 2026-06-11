@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "scope": "test-scope",
+  "plan_kind": "todo-action-plan",
+  "plan_path": "/Users/aprilgom/.codex/skills/todo-plans/tmp-sociwzljme/action-plan.md",
+  "sensitive_path": ".",
+  "plan_updated_at": "2026-05-31T04:13:12.446865Z",
+  "plan_branch": "master",
+  "plan_base_ref": "UNBORN",
+  "tracked_tree_hash": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+  "dirty_status_hash": "ac7be26a4c249fa93c2ee7483d0e32b5c93f9cd84e7b4ef18d184bb35ea089a0",
+  "plan_hash": "c62853b9473815e6d1775412ae9fa50c0625f0c6fe89b5128aa12b21db1e40c8"
+}

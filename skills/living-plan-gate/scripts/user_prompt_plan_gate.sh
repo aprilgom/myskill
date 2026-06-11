@@ -15,23 +15,36 @@ source "$config_path"
 prompt="$(cat)"
 scope="${PLAN_SCOPE:-}"
 sensitive="${SENSITIVE_PATH:-}"
+plan_path="${PLAN_PATH:-}"
+plan_dir="$(dirname "$plan_path")"
+goal_context=""
+
+if printf '%s' "$prompt" | grep -Eiq '(^|[[:space:]])/goal[[:space:]]+(objective-current|objective:current)($|[[:space:]])'; then
+	goal_context="$(cat <<EOF
+objective goal alias: use $plan_dir/current.md as the only active goal pointer and read its linked detail. States: current=in_progress; backlog=not_started unless genuinely paused. Done: remove current and record title/evidence in $plan_dir/completed.md plus dated detail. To revise current action content, use objective:modify-current. Refresh state after plan edits.
+EOF
+)"
+fi
 
 if [[ -n "$scope" || -n "$sensitive" ]]; then
-	if ! printf '%s' "$prompt" | grep -Eiq "(${scope}|${sensitive}|living plan|roi plan|migration plan|roadmap|action plan)"; then
+	if [[ -z "$goal_context" ]] && ! printf '%s' "$prompt" | grep -Eiq "(${scope}|${sensitive}|living plan|objective plan|migration plan|roadmap|action plan)"; then
 		printf '{"continue":true}\n'
 		exit 0
 	fi
 fi
 
 if output="$("$repo_root/.living-plan/scripts/check_plan_freshness.sh" 2>&1)"; then
-	python3 - "$output" <<'PY'
+	python3 - "$output" "$goal_context" <<'PY'
 import json
 import sys
+context = "Living plan freshness check passed. " + sys.argv[1]
+if sys.argv[2]:
+    context += "\n\n" + sys.argv[2]
 print(json.dumps({
     "continue": True,
     "hookSpecificOutput": {
         "hookEventName": "UserPromptSubmit",
-        "additionalContext": "Living plan freshness check passed. " + sys.argv[1],
+        "additionalContext": context,
     },
 }))
 PY
