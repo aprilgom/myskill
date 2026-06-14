@@ -60,7 +60,59 @@ Classify a dependency graph into implementation stages so lower-stage units can 
 
 ## Output Style
 
-When reporting to the user, include:
+When writing a dependency-grade Markdown file, use this structure by default:
+
+```markdown
+# Rust Module Dependency Grade
+
+기준: `<source-root>`에서 `<mode>` 의존성을 정적 추출해 계산했습니다.
+
+- 0단계: 범위 내부의 다른 항목에 의존하지 않는 항목
+- n단계: 자신이 의존하는 내부 항목들의 최대 단계가 n-1인 항목
+- 서로 순환 참조하는 항목들은 하나의 컴포넌트로 묶었습니다.
+
+## Summary
+
+- 대상 항목: <unit-count>
+- 컴포넌트: <component-count>
+- 최대 단계: <max-grade>
+- 순환 컴포넌트: <none-or-list>
+- 테스트 모듈: <제외|포함>
+
+## Manual Caveats
+
+- 이 표는 Rust source의 `crate::<module>` 참조를 기준으로 한 정적 module dependency evidence입니다.
+- Re-export/API root, shared root items, generated/legacy files, broad cycles, and analyzer blind spots should be called out here.
+- If Go porting is the target, explain any recommended shared `types.go`/helper-first setup before grade behavior.
+
+## 0단계
+
+- `src/path.rs` (`module`)
+  - 의존: 없음
+
+## 1단계
+
+- `src/path.rs` (`module`)
+  - 의존: `lower_module`
+
+## N단계
+
+- `src/lib.rs` (`lib`)
+  - 의존: `module_a`, `module_b`
+
+## Go Porting Order Notes
+
+1. Shared root items and helper types first when Rust root items are referenced through `crate::TypeName` or `crate::helper_name`.
+2. Grade 0 behavior next.
+3. Grade 1..N behavior in grade order, reusing lower-grade Go packages/helpers.
+4. Public API assembly and facade exports last.
+```
+
+Adapt the heading only when the graph is not Rust modules, for example
+`# Workspace Dependency Grade` for workspace crate ordering. Keep the Korean
+stage labels (`0단계`, `1단계`, ...) unless the user asks for another language.
+
+When reporting to the user after writing the file, include:
 
 - Source boundary and extraction method.
 - Total units, max grade, and cycle components.

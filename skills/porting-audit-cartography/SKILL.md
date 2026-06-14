@@ -13,19 +13,19 @@ Audit a target port against its source implementation and report what is ported,
 
 1. Identify source and target roots.
    - Use user-provided paths first.
-   - If auditing this Andex workspace, default source to `/Users/aprilgom/Andex/andex-rs/<package>` and target to the current repo's corresponding folder.
-   - If names differ, inspect docs such as `docs/dependency-grade.md`, `README.md`, `PURPOSE.md`, manifests, and nearby package naming.
+   - If auditing this Andex workspace, default source to `/Users/aprilgom/Andex/codex-rs/<package>` and target to the current repo's corresponding folder.
+   - If names differ, inspect docs such as `docs/dependency-grade-2.md`, `README.md`, `PURPOSE.md`, manifests, and nearby package naming.
 
 2. Inventory both sides.
-   - First run `scripts/porting_inventory.py` with source, target, repo, and pretty flags when Python is available.
-   - For a scored baseline, run `scripts/score.py` with source, target, repo, JSON output, and markdown flags. This wraps inventory extraction and emits category scores, findings, extraction gaps, and ROI actions.
-   - Prefer passing `--collect-verification` to `scripts/score.py` so it runs target package tests, full Go tests, porting-rule checks, and lint itself, then embeds the results in the score JSON. Use `--verification-out <json-file>` when the raw verification evidence should be saved separately.
-   - When verification commands have already been run externally, pass `--verification <json-file>` to `scripts/score.py` so integration/build quality reflects actual focused tests, full tests, lint, and porting-rule checks instead of a default inventory-only score.
-   - To render a compact evidence dashboard, run `scripts/render_dashboard.py` with the score JSON, `assets/template.html`, and an output HTML path.
+   - First run `go run ./go/cmd/porting-inventory` with source, target, repo, and pretty flags.
+   - For a scored baseline, run `go run ./go/cmd/score` with source, target, repo, JSON output, and markdown flags. This wraps inventory extraction and emits category scores, findings, extraction gaps, and ROI actions.
+   - Prefer passing `--collect-verification` to `go run ./go/cmd/score` so it runs target package tests, full Go tests, porting-rule checks, and lint itself, then embeds the results in the score JSON. Use `--verification-out <json-file>` when the raw verification evidence should be saved separately.
+   - When verification commands have already been run externally, pass `--verification <json-file>` to `go run ./go/cmd/score` so integration/build quality reflects actual focused tests, full tests, lint, and porting-rule checks instead of a default inventory-only score.
+   - To render a compact evidence dashboard, run `go run ./go/cmd/render-dashboard` with the score JSON, `assets/template.html`, and an output HTML path.
    - When the repository has a custom Rust-to-Go dependency mapping, pass `--dependency-registry <json-file>`. If omitted in this Andex workspace, the script uses a built-in Andex registry for common workspace crates.
    - The dependency registry may also include `api_mappings` for explicit Rust public API to Go API coverage. Use statuses such as `mapped`, `merged`, `internal_equivalent`, `partial`, or `not_applicable` when idiomatic Go shape differs from Rust.
-   - To create an initial `api_mappings` draft, run `scripts/suggest_api_mappings.py` with source, target, repo, and dependency-registry paths. It preserves existing mappings by default, emits exact/snake-to-Pascal matches as `mapped`, fuzzy token matches as `partial`, and omits unmatched APIs unless `--include-unmatched` is supplied. Use `--in-place` only after reviewing the diff.
-   - To refresh `api_mappings` as part of an audit, pass `--update-api-mappings` to `scripts/score.py` together with `--source`, `--target`, and `--dependency-registry`. This rewrites the registry before inventory extraction, preserves existing mappings by default, and records an `registry_update` summary in the score JSON. Use `--replace-existing-api-mappings` only when regenerating reviewed mappings intentionally.
+   - To create an initial `api_mappings` draft, run `go run ./go/cmd/suggest-api-mappings` with source, target, repo, and dependency-registry paths. It preserves existing mappings by default, emits exact/snake-to-Pascal matches as `mapped`, fuzzy token matches as `partial`, and omits unmatched APIs unless `--include-unmatched` is supplied. Use `--in-place` only after reviewing the diff.
+   - To refresh `api_mappings` as part of an audit, pass `--update-api-mappings` to `go run ./go/cmd/score` together with `--source`, `--target`, and `--dependency-registry`. This rewrites the registry before inventory extraction, preserves existing mappings by default, and records an `registry_update` summary in the score JSON. Use `--replace-existing-api-mappings` only when regenerating reviewed mappings intentionally.
    - Use the JSON as the initial evidence set for files, Rust public items, Rust tests, Cargo dependencies, Go exported items, Go tests, Go imports, helper candidates, dependency-grade lookup, and deterministic dependency audit rows.
    - Rust `pub(crate)`, `pub(super)`, `pub(self)`, and `pub(in ...)` items are restricted visibility, not external public API. Do not include them in API surface parity counts; use them only as internal responsibility evidence when relevant.
    - Test coverage is based on source-test to target-test mapping, not raw test counts, when mapping evidence is available. Prefer explicit Go comments of the form `// porting: rust-test=<rust_test_name>` immediately before the corresponding `Test...` function. The scanner falls back to normalized test-name similarity only when explicit comments are absent.
@@ -87,7 +87,7 @@ Produce a 100-point score with this rubric:
 - Integration/build quality: 8
 - Documentation/navigation accuracy: 5
 
-The automated `scripts/score.py` baseline uses the detailed rubric in `references/rubric.md` and emits a heuristic score. Core behavior parity is scored from behavior-slice evidence rather than raw test presence: mapped source-test coverage (10), high-confidence or explicit mapping quality (5), public API ratio or explicit API mapping coverage (4), dependency/responsibility cleanliness (3), and edge/lifecycle evidence diversity where the source has tagged behavior (3). Weak test mappings receive partial credit. Integration/build quality uses `--verification` evidence when supplied. Manual review can override the baseline only with explicit evidence, because behavior parity, exact error semantics, and expert-only architectural judgment cannot be proven by inventory alone.
+The automated `go/cmd/score` baseline uses the detailed rubric in `references/rubric.md` and emits a heuristic score. Core behavior parity is scored from behavior-slice evidence rather than raw test presence: mapped source-test coverage (10), high-confidence or explicit mapping quality (5), public API ratio or explicit API mapping coverage (4), dependency/responsibility cleanliness (3), and edge/lifecycle evidence diversity where the source has tagged behavior (3). Weak test mappings receive partial credit. Integration/build quality uses `--verification` evidence when supplied. Manual review can override the baseline only with explicit evidence, because behavior parity, exact error semantics, and expert-only architectural judgment cannot be proven by inventory alone.
 
 Use these bands:
 
@@ -129,14 +129,14 @@ Next Actions:
 3. ...
 ```
 
-Stable JSON schema emitted by `scripts/score.py` is documented in `references/rubric.md`.
+Stable JSON schema emitted by `go/cmd/score` is documented in `references/rubric.md`.
 
 For quick user questions like "how much is this ported?", provide the same substance in shorter prose, but still include a score/range and the largest missing behaviors.
 
 ## Evidence Discipline
 
 - Cite concrete local file paths and line numbers when making specific claims.
-- Use `scripts/porting_inventory.py` output as evidence inventory, not as final judgment.
+- Use `go/cmd/porting-inventory` output as evidence inventory, not as final judgment.
 - Prefer source/target test names, public type names, and function names as evidence.
 - Do not infer completeness from file count alone.
 - Do not claim full parity when the implementation uses a different backend with weaker guarantees, such as polling instead of OS events, unless tests prove equivalent behavior.
@@ -204,7 +204,7 @@ For this workspace, always check these porting risks when relevant:
 - `PathBuf`/canonicalization behavior versus Go string or `filepath` behavior.
 - JSON/TOML formatting, byte offsets, UTF-8 boundaries, and exact error strings when observable.
 - Public API generality, such as Rust traits/generics versus Go concrete functions or generic constraints.
-- Dependency-grade direction from `docs/dependency-grade.md`: lower-stage packages should not depend on higher-stage packages, and higher-stage ports should reuse completed lower-stage ports instead of copying their logic.
+- Dependency-grade direction from `docs/dependency-grade-2.md`: lower-stage packages should not depend on higher-stage packages, and higher-stage ports should reuse completed lower-stage ports instead of copying their logic.
 
 ## Stop Conditions
 
@@ -212,23 +212,25 @@ Ask for clarification only if the source implementation cannot be located and mu
 
 ## Validation
 
-- `python3 -m py_compile scripts/porting_inventory.py scripts/score.py scripts/render_dashboard.py scripts/suggest_api_mappings.py scripts/self_test.py`
-- `python3 scripts/self_test.py`
-- `python3 scripts/score.py --source <source-root> --target <target-root> --repo <target-repo> --json /tmp/porting-score.json --markdown`
-- `python3 scripts/score.py --source <source-root> --target <target-root> --repo <target-repo> --verification <verification.json> --json /tmp/porting-score.json --markdown`
-- `python3 scripts/score.py --source <source-root> --target <target-root> --repo <target-repo> --collect-verification --verification-out /tmp/porting-verification.json --json /tmp/porting-score.json --markdown`
-- `python3 scripts/score.py --source <source-root> --target <target-root> --repo <target-repo> --dependency-registry <registry.json> --update-api-mappings --json /tmp/porting-score.json --markdown`
-- `python3 scripts/suggest_api_mappings.py --source <source-root> --target <target-root> --repo <target-repo> --dependency-registry <registry.json> --out /tmp/registry-with-api-mappings.json`
-- `python3 scripts/render_dashboard.py /tmp/porting-score.json --template assets/template.html --out /tmp/porting-audit.html`
+- `cd go && go test ./...`
+- `go run ./go/cmd/porting-inventory --source <source-root> --target <target-root> --repo <target-repo> --pretty`
+- `go run ./go/cmd/score --source <source-root> --target <target-root> --repo <target-repo> --json /tmp/porting-score.json --markdown`
+- `go run ./go/cmd/score --source <source-root> --target <target-root> --repo <target-repo> --verification <verification.json> --json /tmp/porting-score.json --markdown`
+- `go run ./go/cmd/score --source <source-root> --target <target-root> --repo <target-repo> --collect-verification --verification-out /tmp/porting-verification.json --json /tmp/porting-score.json --markdown`
+- `go run ./go/cmd/score --source <source-root> --target <target-root> --repo <target-repo> --dependency-registry <registry.json> --update-api-mappings --json /tmp/porting-score.json --markdown`
+- `go run ./go/cmd/suggest-api-mappings --source <source-root> --target <target-root> --repo <target-repo> --dependency-registry <registry.json> --out /tmp/registry-with-api-mappings.json`
+- `go run ./go/cmd/render-dashboard /tmp/porting-score.json --template assets/template.html --out /tmp/porting-audit.html`
 - Check rendered HTML is non-empty and has no unresolved placeholders such as `{{...}}` or `__TOKEN__`.
 
 The self-test uses temporary fixtures, asserts deterministic dependency handling, verifies scorer JSON shape, checks ROI actions, renders HTML, and guards against unresolved placeholders. It intentionally includes an unknown mapping fixture so weak proxy/manual-review gap behavior is tested.
 
 ## Files
 
-- `scripts/porting_inventory.py` - extracts source/target inventory and deterministic dependency audit rows.
-- `scripts/score.py` - converts inventory into a 100-point heuristic baseline with findings, risks, extraction gaps, and ROI actions.
-- `scripts/render_dashboard.py` - renders a score JSON into a compact single-file HTML dashboard.
-- `scripts/self_test.py` - fixture-based validation for inventory, score, render, and placeholder checks.
+- `go/audit` - shared Go implementation for inventory extraction, scoring, API mapping suggestions, verification collection, and HTML rendering.
+- `go/cmd/porting-inventory` - extracts source/target inventory and deterministic dependency audit rows.
+- `go/cmd/score` - converts inventory into a 100-point heuristic baseline with findings, risks, extraction gaps, and ROI actions.
+- `go/cmd/render-dashboard` - renders a score JSON into a compact single-file HTML dashboard.
+- `go/cmd/suggest-api-mappings` - suggests dependency-registry API mappings.
+- `go/audit/audit_test.go` - fixture-based validation for inventory, score, render, and placeholder checks.
 - `assets/template.html` - HTML dashboard template.
 - `references/rubric.md` - detailed scoring criteria, grade bands, and failure modes.

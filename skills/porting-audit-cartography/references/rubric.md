@@ -29,7 +29,7 @@ Failure modes:
 
 ## Score JSON Schema
 
-`scripts/score.py` emits this stable shape:
+`go/cmd/score` emits this stable shape:
 
 ```json
 {
